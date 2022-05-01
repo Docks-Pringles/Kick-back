@@ -1,0 +1,75 @@
+*#include<stdio.h>
+#include<ctype.h>
+#include<stdlib.h>
+
+void main()
+{
+	struct horse
+	{
+		int age;
+		int height;
+		char name[20];
+		char father[20];
+		char mother[20];
+		struct horse* next;
+		struct horse* previous;
+	};
+	struct horse* first = NULL;
+	struct horse* current = NULL;
+	struct horse* last = NULL;
+	char test = '\0';
+
+	for (;;)
+	{
+		printf("\nDo you want to enter details of a%s horse (Y or N)? ",
+			first == NULL ? "nother" : "");
+		scanf_s("%c", &test, 20);    //吸收最后输入的一个换行符\t.
+		scanf_s("%c", &test, 20);    //读入Y or N。
+	    //test=getchar();           
+		if (tolower(test) == 'n')
+			break;
+
+		current = (struct horse*)malloc(sizeof(struct horse));
+
+		if (first == NULL)
+		{
+			first = current;
+			current->previous = NULL;
+		}
+		else 
+		{ 
+			last->next = current;
+		    current->previous = last;
+		}
+
+		printf("\nEnter the name of the horse: ");
+		scanf_s("%s", current->name, 20);
+
+		printf("\nHoe old is %s?", current->name);
+		scanf_s("%d", &current->age);
+
+		printf("\nHow high is %s?", current->name);
+		scanf_s("%d", &current->height);
+
+		printf("\nHow is %s's mother?", current->name);
+		scanf_s("%s", current->mother, 20);
+
+		printf("\nHow is %s's father?", current->name);
+		scanf_s("%s", current->father, 20);
+
+		current->next = NULL;
+	    last = current;
+	}
+
+	while (current != NULL)
+	{
+		printf("\n\n%s is %d years old,%d hands high,",
+			current->name, current->age, current->height);
+	    printf(" and has %s and %s as parents.",
+			current->father, current->mother);
+
+	last = current;
+	current = current->previous;
+	free(last);
+    }
+}
